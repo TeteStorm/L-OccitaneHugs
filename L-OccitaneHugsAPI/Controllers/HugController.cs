@@ -2,6 +2,8 @@
 using L_OccitaneHugsDomain;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Results;
 
@@ -27,6 +29,33 @@ namespace L_OccitaneHugsAPI.Controllers
             return Ok(hugs);
         }
 
+        // GET: api/hugs
+        [HttpGet]
+        [Route("filter")]
+        public IHttpActionResult Filter(string type, string value)
+        {
+            var hugs = new List<Hug>();
+            if(type == "creatorId")
+            {
+                hugs = hugs = hugRepository.FindAll(x => x.Identifier == value).Take(150).ToList();
+            }
+            else if(type == "feeling")
+            {
+
+            }
+            else if (type == "state")
+            {
+
+            }
+            else if (type == "createDate")
+            {
+
+            }
+            hugs = hugs ?? hugRepository.GetAll().Take(150).ToList();
+
+            return Ok(hugs);
+        }
+
         // GET: api/hug/5
         [HttpGet]
         public IHttpActionResult Get(int id)
@@ -34,23 +63,65 @@ namespace L_OccitaneHugsAPI.Controllers
             var hug = hugRepository.GetById(id);
             return Ok(hug);
         }
+        
+        // sync version
+        //// POST: api/hug
+        //[HttpPost]
+        ////[Route("create")]
+        //public IHttpActionResult Post(Hug hug)
+        //{
+        //    var feelingRepository = unitOfWork.Repository<Feeling>();
+        //    var getFeeling = feelingRepository.Find(x => x.Tags.ToUpper().Contains(hug.Message.ToUpper()));
+        //    if (getFeeling == null)
+        //        getFeeling = feelingRepository.GetAll().FirstOrDefault();
+
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        hug.CityId = 1;
+        //        hug.FeelingId = getFeeling.Id;
+        //        hug.Identifier = "tania@trin.ca";
+        //        hug.Message = "Hello";
+        //        hug.From = "Tania";
+        //        hug.To = "Maria";
+        //        hugRepository.Insert(hug);
+        //    }
+
+        //    return Created( new {
+        //              Message = hug.Message,
+        //              FeelingName = getFeeling.Name
+        //            });
+        //}
 
         // POST: api/hug
+
+
         [HttpPost]
         //[Route("create")]
-        public IHttpActionResult Post(Hug hug)
+        public async Task<IHttpActionResult> PostAsync(Hug hug)
         {
+            var feelingRepository = unitOfWork.Repository<Feeling>();
+            Feeling feeling = await feelingRepository.FindAsync(x => x.Tags.ToUpper().Contains(hug.Message.ToUpper()));
+            if (feeling == null)
+                feeling = feelingRepository.GetAll().FirstOrDefault(); 
             if (ModelState.IsValid)
             {
                 hug.CityId = 1;
-                hug.Identificator = "tania@trin.ca";
-                hug.Message = "Hello";
-                hug.From = "Tania";
-                hug.To = "Maria";
+                hug.FeelingId = feeling.Id;
+                hug.Identifier = hug.Identifier;
+                hug.Message = hug.Message;
+                hug.From = hug.From;
+                hug.To = hug.To;
+                hug.CreateDate = DateTime.Now.Date;
                 hugRepository.Insert(hug);
             }
 
-            return Created(hug);
+            return Created(new
+            {
+                Message = hug.Message,
+                FeelingName = feeling.Name,
+                CreateDate = hug.CreateDate.ToShortDateString()
+            });
         }
 
         // PUT: api/hug/5

@@ -24,6 +24,8 @@ namespace L_OccitaneHugsData
        {
             modelBuilder.Conventions.Remove<StoreGeneratedIdentityKeyConvention>();
 
+            modelBuilder.Conventions.Add(new DataTypePropertyAttributeConvention());
+
             var typesToRegister = Assembly.GetExecutingAssembly().GetTypes()
               .Where(type => !String.IsNullOrEmpty(type.Namespace))
               .Where(type => type.BaseType != null && type.BaseType.IsGenericType

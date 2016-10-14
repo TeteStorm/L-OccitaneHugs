@@ -49,12 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Conventions\DataTypePropertyAttributeConvention.cs" />
     <Compile Include="EFDbContext.cs" />
     <Compile Include="Mapping\CityMap.cs" />
     <Compile Include="Mapping\CountryMap.cs" />
     <Compile Include="Mapping\HugMap.cs" />
     <Compile Include="Mapping\RegionMap.cs" />
-    <Compile Include="Mapping\SentimentMap.cs" />
+    <Compile Include="Mapping\FeelingMap.cs" />
     <Compile Include="Mapping\StateMap.cs" />
     <Compile Include="Migrations\201610132104432_Initial_Create.cs" />
     <Compile Include="Migrations\201610132104432_Initial_Create.Designer.cs">
@@ -63,6 +64,18 @@
     <Compile Include="Migrations\201610132105458_Seed_localization.cs" />
     <Compile Include="Migrations\201610132105458_Seed_localization.Designer.cs">
       <DependentUpon>201610132105458_Seed_localization.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610142041009_Rename_model.cs" />
+    <Compile Include="Migrations\201610142041009_Rename_model.Designer.cs">
+      <DependentUpon>201610142041009_Rename_model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610142103295_Modify_relationship.cs" />
+    <Compile Include="Migrations\201610142103295_Modify_relationship.Designer.cs">
+      <DependentUpon>201610142103295_Modify_relationship.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610142227261_Add_create_date_collumn_in_hug_entity.cs" />
+    <Compile Include="Migrations\201610142227261_Add_create_date_collumn_in_hug_entity.Designer.cs">
+      <DependentUpon>201610142227261_Add_create_date_collumn_in_hug_entity.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -73,6 +86,10 @@
     <ProjectReference Include="..\..\..\..\..\..\Projects\trinca\L-OccitaneHugs\L-OccitaneHugsDomain\L-OccitaneHugsDomain.csproj">
       <Project>{ee915d2c-800b-4864-92c0-ad5eb7b8f529}</Project>
       <Name>L-OccitaneHugsDomain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EFFTS\EFFTS.csproj">
+      <Project>{f2e23967-74bf-467a-ba45-eb0237569487}</Project>
+      <Name>EFFTS</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -95,6 +112,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610132105458_Seed_localization.resx">
       <DependentUpon>201610132105458_Seed_localization.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610142041009_Rename_model.resx">
+      <DependentUpon>201610142041009_Rename_model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610142103295_Modify_relationship.resx">
+      <DependentUpon>201610142103295_Modify_relationship.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610142227261_Add_create_date_collumn_in_hug_entity.resx">
+      <DependentUpon>201610142227261_Add_create_date_collumn_in_hug_entity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace L_OccitaneHugsData
 {
@@ -26,6 +28,25 @@ namespace L_OccitaneHugsData
         public IEnumerable<T> GetAll()
         {
             return this.Entities.AsEnumerable();
+        }
+
+
+        public T Find(Func<T, bool> match, params Expression<Func<T, object>>[] includeExpressions)
+        {
+            return this.Entities.FirstOrDefault(match);
+        }
+
+
+        public async Task<T> FindAsync(Expression<Func<T, bool>> match)
+        {
+            return await this.Entities.FirstOrDefaultAsync(match);
+        }
+
+
+
+        public IEnumerable<T> FindAll(Func<T, bool> filter)
+        {
+            return this.Entities.Where(filter);
         }
 
         public void Insert(T entity)

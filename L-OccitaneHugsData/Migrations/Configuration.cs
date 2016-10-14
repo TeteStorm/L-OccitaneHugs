@@ -1,5 +1,6 @@
 namespace L_OccitaneHugsData.Migrations
 {
+    using L_OccitaneHugsDomain;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -14,18 +15,16 @@ namespace L_OccitaneHugsData.Migrations
 
         protected override void Seed(L_OccitaneHugsData.EFDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            var feelings = new Feeling[]
+            {
+                 new Feeling { Name = "Amor", Tags = "emoção amoroso amorosa amado amada afeição familiaridade te amo amo família" },
+                
+            };
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+            feelings.ToList().ForEach(f =>
+                context.Set<Feeling>().AddOrUpdate(p => p.Name, f)
+                );
+            
         }
     }
 }

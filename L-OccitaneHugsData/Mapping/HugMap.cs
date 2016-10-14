@@ -14,6 +14,10 @@ namespace L_OccitaneHugsData
             Property(t => t.From).IsRequired();
             Property(t => t.To).IsRequired();
             Property(t => t.Message).IsRequired();
+            Property(t => t.Message).IsRequired();
+            Property(t => t.CreateDate).IsRequired();
+            HasRequired(e => e.City);
+            HasRequired(e => e.Feeling);
             ToTable("Hug");
         }
     }

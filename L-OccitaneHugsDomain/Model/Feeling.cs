@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace L_OccitaneHugsDomain
 {
-    public class Sentiment : BaseEntity
+    public class Feeling : BaseEntity
     {
         public string Name { get; set; }
         public string Tags { get; set; }

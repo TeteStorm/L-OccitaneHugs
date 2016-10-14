@@ -1,6 +1,8 @@
-﻿using L_OccitaneHugsDomain;
+﻿using EFFTS;
+using L_OccitaneHugsDomain;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure.Interception;
 
 namespace L_OccitaneHugsData
 {
@@ -15,7 +17,13 @@ namespace L_OccitaneHugsData
            this.context = context;
        }
 
-       public UnitOfWork()
+
+        public UnitOfWork(bool useInterceptors)
+        {
+            DbInterception.Add(new FtsInterceptor());
+            context = new EFDbContext();
+        }
+        public UnitOfWork()
        {
            context = new EFDbContext();
        }
