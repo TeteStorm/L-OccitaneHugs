@@ -19,7 +19,7 @@ namespace L_OccitaneHugsAPI.Controllers
         {
             hugRepository = unitOfWork.Repository<Hug>();
         }
-        
+
         // GET: api/hugs
         [HttpGet]
         [Route("all")]
@@ -29,31 +29,39 @@ namespace L_OccitaneHugsAPI.Controllers
             return Ok(hugs);
         }
 
-        // GET: api/hugs
+        // GET: api/hugs/filter
         [HttpGet]
         [Route("filter")]
-        public IHttpActionResult Filter(string type, string value)
+        public IHttpActionResult Filter(string type, [FromUri]string[] values)
         {
             var hugs = new List<Hug>();
             if(type == "creatorId")
             {
-                hugs = hugs = hugRepository.FindAll(x => x.Identifier == value).Take(150).ToList();
+                hugs =  hugRepository.FindAll(x => x.Identifier == values.FirstOrDefault(), x=> x.City, x=> x.Feeling, x=> x.City.State).Take(150).ToList();
             }
             else if(type == "feeling")
             {
-
+                hugs =  hugRepository.FindAll(x => x.FeelingId == int.Parse(values.FirstOrDefault()), x => x.City, x => x.Feeling, x => x.City.State).Take(150).ToList();
             }
             else if (type == "state")
             {
-
+                hugs =  hugRepository.FindAll(x => x.City.StateId == int.Parse(values.FirstOrDefault()), x => x.City, x => x.Feeling, x => x.City.State).Take(150).ToList();
             }
             else if (type == "createDate")
             {
-
+                hugs = hugRepository.FindAll(x => x.CreateDate.CompareTo(DateTime.Parse(values[0])) >= 0 && x.CreateDate.CompareTo(DateTime.Parse(values[1])) <= 0, x => x.City, x => x.Feeling, x => x.City.State).Take(150).ToList();
             }
-            hugs = hugs ?? hugRepository.GetAll().Take(150).ToList();
+            if (hugs == null || hugs.Count == 0)
+                hugs= hugRepository.GetAll().Take(150).ToList();
 
-            return Ok(hugs);
+
+            var returnObject = from a
+                               in hugs
+                               select new { Id= a.Id, From = a.From, To = a.To, Message = a.Message,
+                                   Likes = a.Likes, City = a.City.Name, State = a.City.State.Name, Identifier = a.Identifier
+};
+                               
+            return Ok(returnObject);
         }
 
         // GET: api/hug/5
@@ -124,7 +132,7 @@ namespace L_OccitaneHugsAPI.Controllers
             });
         }
 
-        // PUT: api/hug/5
+        // PUT: api/hug/5/like
         [HttpPut]
         [Route("{id}/like")]
         public IHttpActionResult Like(int id)

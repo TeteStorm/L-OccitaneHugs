@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Conventions\DataTypePropertyAttributeConvention.cs" />
     <Compile Include="EFDbContext.cs" />
+    <Compile Include="Extensions\EnitityFrameworkExtensions.cs" />
     <Compile Include="Mapping\CityMap.cs" />
     <Compile Include="Mapping\CountryMap.cs" />
     <Compile Include="Mapping\HugMap.cs" />

@@ -19,6 +19,8 @@ namespace L_OccitaneHugsAPI
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            //SwaggerConfig.Register();
         }
     }
 }

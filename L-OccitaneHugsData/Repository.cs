@@ -6,6 +6,7 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Data.Entity.Infrastructure;
 
 namespace L_OccitaneHugsData
 {
@@ -25,29 +26,49 @@ namespace L_OccitaneHugsData
             return this.Entities.Find(id);
         }
 
-        public IEnumerable<T> GetAll()
+        public IEnumerable<T> GetAll(params Expression<Func<T, object>>[] includeExpressions)
         {
-            return this.Entities.AsEnumerable();
+            IQueryable<T> query = this.Entities;
+            if (includeExpressions != null && includeExpressions.Any())
+                query = includeExpressions.Aggregate(query, (current, expression) => current.Include(expression));
+            return query.AsEnumerable();
         }
 
 
         public T Find(Func<T, bool> match, params Expression<Func<T, object>>[] includeExpressions)
         {
-            return this.Entities.FirstOrDefault(match);
+            IQueryable<T> query = this.Entities;
+            if (includeExpressions != null && includeExpressions.Any())
+                query = includeExpressions.Aggregate(query, (current, expression) => current.Include(expression));
+            return query.FirstOrDefault(match);
         }
 
 
-        public async Task<T> FindAsync(Expression<Func<T, bool>> match)
+        public async Task<T> FindAsync(Expression<Func<T, bool>> match, params Expression<Func<T, object>>[] includeExpressions)
         {
-            return await this.Entities.FirstOrDefaultAsync(match);
+            IQueryable<T> query = this.Entities;
+            if (includeExpressions != null && includeExpressions.Any())
+                query = includeExpressions.Aggregate(query, (current, expression) => current.Include(expression));
+            return await query.FirstOrDefaultAsync(match);
         }
 
 
 
-        public IEnumerable<T> FindAll(Func<T, bool> filter)
+        public IEnumerable<T> FindAll(Func<T, bool> filter, params Expression<Func<T, object>>[] includeExpressions)
         {
-            return this.Entities.Where(filter);
+            IQueryable<T> query = this.Entities;
+            if (includeExpressions != null && includeExpressions.Any())
+                query = includeExpressions.Aggregate(query, (current, expression) => current.Include(expression));
+            return query.Where(filter);
         }
+
+        //public async Task<IEnumerable<T>> FindAllAsync(Func<T, bool> filter, params Expression<Func<T, object>>[] includeExpressions)
+        //{
+        //    IQueryable<T> query = this.Entities;
+        //    if (includeExpressions != null && includeExpressions.Any())
+        //        query = includeExpressions.Aggregate(query, (current, expression) => current.Include(expression));
+        //    return await query.Where(filter).ToListAsync();
+        //}
 
         public void Insert(T entity)
         {
