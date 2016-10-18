@@ -78,6 +78,10 @@
     <Compile Include="Migrations\201610142227261_Add_create_date_collumn_in_hug_entity.Designer.cs">
       <DependentUpon>201610142227261_Add_create_date_collumn_in_hug_entity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610181823227_Add_create_imageUrl_collumn_in_hug_entity.cs" />
+    <Compile Include="Migrations\201610181823227_Add_create_imageUrl_collumn_in_hug_entity.Designer.cs">
+      <DependentUpon>201610181823227_Add_create_imageUrl_collumn_in_hug_entity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository.cs" />
@@ -122,6 +126,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610142227261_Add_create_date_collumn_in_hug_entity.resx">
       <DependentUpon>201610142227261_Add_create_date_collumn_in_hug_entity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610181823227_Add_create_imageUrl_collumn_in_hug_entity.resx">
+      <DependentUpon>201610181823227_Add_create_imageUrl_collumn_in_hug_entity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

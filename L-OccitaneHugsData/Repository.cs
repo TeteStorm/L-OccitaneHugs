@@ -26,6 +26,15 @@ namespace L_OccitaneHugsData
             return this.Entities.Find(id);
         }
 
+        public T GetById(int id, params Expression<Func<T, object>>[] includeExpressions)
+        {
+            IQueryable<T> query = this.Entities;
+            if (includeExpressions != null && includeExpressions.Any())
+                query = includeExpressions.Aggregate(query, (current, expression) => current.Include(expression));
+            return query.Where(x => x.Id == id).FirstOrDefault();
+        }
+
+
         public IEnumerable<T> GetAll(params Expression<Func<T, object>>[] includeExpressions)
         {
             IQueryable<T> query = this.Entities;

@@ -31,6 +31,8 @@ namespace L_OccitaneHugsDomain
 
         public int Likes { get; set; }
 
+        public string ImageUrl { get; set; }
+
         [DataType(DataType.Date)]
         [DisplayFormatAttribute(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTime CreateDate { get; set; }
