@@ -18,7 +18,11 @@ namespace L_OccitaneHugsData.Migrations
             var feelings = new Feeling[]
             {
                  new Feeling { Name = "Amor", Tags = "emoção amoroso amorosa amado amada afeição familiaridade te amo amo família" },
-                
+                 new Feeling { Name = "Saudade", Tags = "nostalgia ausência despedida encontro reencontro reencontrar distante dor nostálgico nostálgica separação distanciamento" },
+                 new Feeling { Name = "Carinho", Tags = "gentileza carinhosa carinhoso carência cuidado atenção dengo gentileza sensibilidade afago chamego ternura aconchego aconchegante afeto doçura afetividade gentil" },
+                 new Feeling { Name = "Amor", Tags = "emoção amoroso amorosa amado amada afeição familiaridade te amo amo família" },
+                 new Feeling { Name = "Amor", Tags = "emoção amoroso amorosa amado amada afeição familiaridade te amo amo família" },
+
             };
 
             feelings.ToList().ForEach(f =>

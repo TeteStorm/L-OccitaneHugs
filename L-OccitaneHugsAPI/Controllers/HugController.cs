@@ -50,6 +50,25 @@ namespace L_OccitaneHugsAPI.Controllers
         }
 
         /// <summary>
+        /// Get total of hugs
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("regionsTotals")]
+        public IHttpActionResult GetRegionsTotal()
+        {
+            var hugs = hugRepository.GetAll(x=> x.City, x=> x.City.State, x => x.City.State.Region);
+
+            var totals = from r in hugs
+                     orderby r.City.State.Region.Name
+                     group r by r.City.State.Region.Name into grp
+                     select new { key = grp.Key, cnt = grp.Count() };
+
+            return Ok(totals);
+        }
+
+
+        /// <summary>
         /// Filter hugs and take 150 records
         /// </summary>
         /// <param name="type">creatorId feelingId stateId createDate</param>
@@ -91,7 +110,6 @@ namespace L_OccitaneHugsAPI.Controllers
 
         /// <summary>
         /// Get hug details
-        /// GET: api/hug/5
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -104,6 +122,7 @@ namespace L_OccitaneHugsAPI.Controllers
                 To = hug.To,
                 From = hug.From,
                 Message = hug.Message,
+                ImageUrl = hug.ImageUrl,
                 FeelingName = hug.Feeling.Name,
                 CityName= hug.City.Name,
                 StateAbbreviation = hug.City.State.Abbreviation,
@@ -148,7 +167,6 @@ namespace L_OccitaneHugsAPI.Controllers
         /// <param name="hug"></param>
         /// <returns></returns>
         [HttpPost]
-        //[Route("create")]
         public async Task<IHttpActionResult> PostAsync(Hug hug)
         {
             var feelingRepository = unitOfWork.Repository<Feeling>();
@@ -157,7 +175,7 @@ namespace L_OccitaneHugsAPI.Controllers
                 feeling = feelingRepository.GetAll().FirstOrDefault(); 
             if (ModelState.IsValid)
             {
-                hug.CityId = 1;
+                hug.CityId = hug.CityId;
                 hug.FeelingId = feeling.Id;
                 hug.Identifier = hug.Identifier;
                 hug.Message = hug.Message;
@@ -173,6 +191,7 @@ namespace L_OccitaneHugsAPI.Controllers
                 To = hug.To,
                 From = hug.From,
                 Message = hug.Message,
+                ImageUrl = hug.ImageUrl,
                 FeelingName = hug.Feeling.Name,
                 CityName = hug.City.Name,
                 StateAbbreviation = hug.City.State.Abbreviation,
@@ -187,10 +206,25 @@ namespace L_OccitaneHugsAPI.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("{id}/like")]
-        public IHttpActionResult Like(int id)
+        public IHttpActionResult LikeDislike(int id)
         {
             var hug = hugRepository.GetById(id);
             hug.Likes = hug.Likes + 1;
+            hugRepository.Update(hug);
+            return Ok(hug.Likes);
+        }
+
+        /// <summary>
+        /// Dislike a hug
+        /// </summary>
+        /// <param name="id">Hug id</param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("{id}/dislike")]
+        public IHttpActionResult Dislike(int id)
+        {
+            var hug = hugRepository.GetById(id);
+            hug.Likes = hug.Likes - 1;
             hugRepository.Update(hug);
             return Ok(hug.Likes);
         }
