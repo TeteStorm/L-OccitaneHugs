@@ -45,5 +45,45 @@ namespace L_OccitaneHugsAPI.Controllers
             return Ok(feelings);
         }
 
+        /// <summary>
+        /// Dislike a hug
+        /// </summary>
+        /// <param name="id">Hug id</param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("{id}/addTags")]
+        public IHttpActionResult AddTags(int id, string tags)
+        {
+            var feeling = feelingRepository.GetById(id);
+            feeling.Tags = $"{feeling.Tags} {tags}";
+            feelingRepository.Update(feeling);
+            return Ok(feeling);
+        }
+
+        /// <summary>
+        /// Create a hug
+        /// </summary>
+        /// <param name="feeling"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IHttpActionResult> PostAsync(Feeling feelingIn)
+        {
+            var feelingRepository = unitOfWork.Repository<Feeling>();
+            Feeling feeling = await feelingRepository.FindAsync(x => (x.Id == feelingIn.Id || x.Name == feelingIn.Name));
+            if (!ModelState.IsValid)
+                return BadRequest("The model are invalid");
+            if (feeling == null)
+            {
+                feelingRepository.Insert(feelingIn);
+            }
+
+            return Created("", new
+            {
+                feelingIn.Name,
+                feelingIn.Tags
+            });
+        }
+
+
     }
 }

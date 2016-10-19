@@ -130,36 +130,6 @@ namespace L_OccitaneHugsAPI.Controllers
             });
         }
         
-        // sync version
-        //// POST: api/hug
-        //[HttpPost]
-        ////[Route("create")]
-        //public IHttpActionResult Post(Hug hug)
-        //{
-        //    var feelingRepository = unitOfWork.Repository<Feeling>();
-        //    var getFeeling = feelingRepository.Find(x => x.Tags.ToUpper().Contains(hug.Message.ToUpper()));
-        //    if (getFeeling == null)
-        //        getFeeling = feelingRepository.GetAll().FirstOrDefault();
-
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        hug.CityId = 1;
-        //        hug.FeelingId = getFeeling.Id;
-        //        hug.Identifier = "tania@trin.ca";
-        //        hug.Message = "Hello";
-        //        hug.From = "Tania";
-        //        hug.To = "Maria";
-        //        hugRepository.Insert(hug);
-        //    }
-
-        //    return Created( new {
-        //              Message = hug.Message,
-        //              FeelingName = getFeeling.Name
-        //            });
-        //}
-
-        // POST: api/hug
 
         /// <summary>
         /// Create a hug
